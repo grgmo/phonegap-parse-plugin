@@ -73,6 +73,17 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void)setApplicationBadgeNumber: (CDVInvokedUrlCommand *)command
+{
+    CDVPluginResult* pluginResult = nil;
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    NSString *badge = [command.arguments objectAtIndex:0];
+    [currentInstallation setBadge:[badge integerValue]];
+    [currentInstallation saveInBackground];
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
 @end
 
 @implementation AppDelegate (CDVParsePlugin)

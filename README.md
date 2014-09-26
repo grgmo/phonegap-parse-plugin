@@ -49,6 +49,12 @@ Usage
 	}, function(e) {
 		alert('error');
 	});
+
+	parsePlugin.setApplicationBadgeNumber(badge, function(msg) {
+		alert('OK');
+	}, function(e) {
+		alert('error');
+	});
 </script>
 ```
 
