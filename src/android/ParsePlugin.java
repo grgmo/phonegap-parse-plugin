@@ -1,6 +1,7 @@
 package org.apache.cordova.core;
 
 import java.util.Set;
+import java.lang.Exception;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -67,8 +68,12 @@ public class ParsePlugin extends CordovaPlugin {
     private void getInstallationId(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
-                String installationId = ParseInstallation.getCurrentInstallation().getInstallationId();
-                callbackContext.success(installationId);
+                try {
+                    String installationId = ParseInstallation.getCurrentInstallation().getInstallationId();
+                    callbackContext.success(installationId);
+                } catch (Exception e) {
+                    callbackContext.error("No Parse Installation ID");
+                }
             }
         });
     }
