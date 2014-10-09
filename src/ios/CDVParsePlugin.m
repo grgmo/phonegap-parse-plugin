@@ -20,10 +20,18 @@
 {
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
-        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-        NSString *installationId = currentInstallation.installationId;
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:installationId];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        
+        @try {
+            PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+            NSString *installationId = currentInstallation.installationId;
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:installationId];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }
+        @catch (NSException *exception) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"No Parse installation ID"];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }
+
     }];
 }
 
